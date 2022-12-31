@@ -5,7 +5,7 @@
 #ifndef PROJECTMCODES_SOITEMMANAGEMODULEIMPL_H
 #define PROJECTMCODES_SOITEMMANAGEMODULEIMPL_H
 
-#include "../../../Globals/stddef.h"
+#include "stddef.h"
 
 struct soItemManageModuleImpl {
     void attachItem(unsigned int itemId, unsigned int unk3, int unk4);

@@ -6,7 +6,7 @@
 #define PROJECTMCODES_GFCAMERA_H
 
 #include "stddef.h"
-
+#include "stdtypes.h"
 
 typedef f32	Mtx[3][4];
 

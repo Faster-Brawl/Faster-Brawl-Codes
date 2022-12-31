@@ -5,8 +5,7 @@
 #ifndef PROJECTMCODES_GFFILEIOMANAGER_H
 #define PROJECTMCODES_GFFILEIOMANAGER_H
 
-
-#include <stddef.h>
+#include "stdtypes.h"
 
 struct gfFileIOManager {
     //1 is replay, 0 is normal match?

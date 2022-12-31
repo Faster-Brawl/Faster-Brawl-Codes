@@ -5,7 +5,7 @@
 #ifndef PROJECTMCODES_FTPARAMCUSTOMIZEMODULEIMPL_H
 #define PROJECTMCODES_FTPARAMCUSTOMIZEMODULEIMPL_H
 
-#include "stddef.h"
+#include "stdtypes.h"
 
 struct ftParam {
     // 0

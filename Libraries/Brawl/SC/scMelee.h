@@ -6,7 +6,7 @@
 #define PROJECTMCODES_SCMELEE_H
 
 
-#include <stddef.h>
+#include "stdtypes.h"
 #include "Brawl/ST/stLoaderStage.h"
 
 struct scMelee {

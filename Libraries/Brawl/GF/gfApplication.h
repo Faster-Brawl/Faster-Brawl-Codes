@@ -5,7 +5,7 @@
 #ifndef PROJECTMCODES_GFAPPLICATION_H
 #define PROJECTMCODES_GFAPPLICATION_H
 
-#include "stddef.h"
+#include "stdtypes.h"
 
 //The object that controls the main loop
 struct gfApplication {

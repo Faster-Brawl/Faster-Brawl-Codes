@@ -7,7 +7,7 @@
 
 
 #include "stddef.h"
-
+#include "stdtypes.h"
 struct gfFileIO {
     //0
     const char* filepath;

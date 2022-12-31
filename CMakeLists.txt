@@ -29,7 +29,6 @@ add_custom_target(resetIncludedCodes ALL
 #Used to wait until everything is built
 add_custom_target(codeBarrier DEPENDS resetIncludedCodes)
 
-
 #Build individual codes
 #Every individual library runs this function
 function(add_code codeName)
@@ -56,7 +55,7 @@ add_subdirectory(Codes)
 add_subdirectory(Libraries)
 add_subdirectory(Globals)
 
-
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
 add_custom_target(build ALL
-        COMMAND python ${builder} ${PROJECT_BINARY_DIR} ${PROJECT_BINARY_DIR}/IncludedCodes ${PPC_BIN_DIRECTORY} ${functionMapDirectory} ${settingsPath}
+        COMMAND ${Python3_EXECUTABLE} ${builder} ${PROJECT_BINARY_DIR} ${PROJECT_BINARY_DIR}/IncludedCodes ${PPC_BIN_DIRECTORY} ${functionMapDirectory}
         DEPENDS codeBarrier)

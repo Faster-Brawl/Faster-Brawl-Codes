@@ -6,7 +6,7 @@
 #define PROJECTMCODES_PADSTATUS_H
 
 
-#include "../../../Globals/stddef.h"
+#include "stdtypes.h"
 #include "PADButtons.h"
 
 struct PADStatus {

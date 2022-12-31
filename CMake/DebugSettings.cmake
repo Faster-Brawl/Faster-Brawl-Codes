@@ -1,5 +1,3 @@
-add_compile_options(-nostdinc)
-
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR ppc)
 set(CMAKE_CROSSCOMPILING 1)
@@ -12,41 +10,9 @@ set(VERBOSE 1)
 # set(CMAKE_CXX_FLAGS "-g -nostartfiles -fomit-frame-pointer -fno-unwind-tables -fno-stack-check -fno-function-cse -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables -std=c++17 -fno-builtin -ffreestanding -mcpu=750 -mmultiple -fno-inline -save-temps=obj -fverbose-asm -fno-threadsafe-statics")
 
 # Replicates -Os with broken flags excluded
-set(CMAKE_CXX_FLAGS 
-  "-O1 -ggdb3 -nostartfiles -fomit-frame-pointer -fno-unwind-tables -fno-stack-check -fno-function-cse -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables -std=c++17 -fno-builtin -ffreestanding -mcpu=750 -mmultiple -fno-inline -save-temps=obj -fverbose-asm -fno-threadsafe-statics \
-    -fcaller-saves \
-    -fcode-hoisting \
-    -fcrossjumping \
-    -fcse-follow-jumps  -fcse-skip-blocks \
-    -fdelete-null-pointer-checks \
-    -fdevirtualize  -fdevirtualize-speculatively \
-    -fexpensive-optimizations \
-    -fgcse  -fgcse-lm  \
-    -fhoist-adjacent-loads \
-    -finline-functions \
-    -finline-small-functions \
-    -findirect-inlining \
-    -fisolate-erroneous-paths-dereference \
-    -flra-remat \
-    -foptimize-sibling-calls \
-    -foptimize-strlen \
-    -fpartial-inlining \
-    -fpeephole2 \
-    -freorder-blocks-algorithm=stc \
-    -frerun-cse-after-loop  \
-    -fschedule-insns  \
-    -fsched-interblock  -fsched-spec \
-    -fstore-merging \
-    -fstrict-aliasing \
-    -fthread-jumps \
-    -ftree-builtin-call-dce \
-    -ftree-loop-vectorize \
-    -ftree-pre \
-    -ftree-slp-vectorize \
-    -ftree-switch-conversion  -ftree-tail-merge \
-    -ftree-vrp \
-    -finline-functions \
-  ")
+set(CMAKE_CXX_FLAGS "-Og -ggdb3 -nostartfiles -fomit-frame-pointer -fno-unwind-tables -fno-stack-check -fno-function-cse -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables -std=c++17 -fno-builtin -ffreestanding -mcpu=750 -mmultiple -fno-inline -save-temps=obj -fverbose-asm -fno-threadsafe-statics")
+
+
 
 ## UNCOMMENT FOR DEBUGGING
 # set(CMAKE_CXX_FLAGS "-Og -ggdb3 -nostartfiles -fomit-frame-pointer -fno-unwind-tables -fno-stack-check -fno-function-cse -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-asynchronous-unwind-tables -std=c++17 -fno-builtin -ffreestanding -mcpu=750 -mmultiple -fno-inline -save-temps=obj -fverbose-asm -fno-threadsafe-statics")

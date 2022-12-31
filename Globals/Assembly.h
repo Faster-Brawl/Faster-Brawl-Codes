@@ -1,6 +1,6 @@
 #pragma once
 
-#include "stddef.h"
+#include "stdtypes.h"
 
 asm(R"(
 .set sp, 1;  .set rtoc, 2;
@@ -57,7 +57,12 @@ asm(R"(
 	);                         \
     extern "C" void name()
 
-
+#define NO_REGS_INJECTION(name, address, replacement, returnType) \
+    INJECTION(#name, address, \
+		"bl " #name "\n" \
+		replacement \
+	);                         \
+    extern "C" returnType name()
 
 #define STARTUP(name) \
 	asm( \
@@ -133,6 +138,11 @@ asm(R"(.macro SETREG reg label
     addi \reg, \reg, \label@l
 .endm)");
 
+asm(R"(.macro BRANCH reg label
+    SETREG \reg, \label
+	mtctr \reg
+	bctr
+.endm)");
 
 asm(R"(.macro getCurrentAddress reg
     bl 1f

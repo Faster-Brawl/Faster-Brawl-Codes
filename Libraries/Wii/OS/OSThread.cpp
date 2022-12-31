@@ -3,7 +3,7 @@
 //include OSMutex here so mutex type is defined, but avoids circular dependancies
 #include "OSMutex.h"
 #include "Memory.h"
-
+#include <cstdlib>
 
 OSThread* getCurrentThread() {
 	return OSGetCurrentThread();

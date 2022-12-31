@@ -6,7 +6,8 @@
 #define PROJECTMCODES_SOSTATUSMODULEIMPL_H
 
 
-#include "../../../Globals/stddef.h"
+#include "stddef.h"
+#include "stdtypes.h"
 #include "soModuleAccessor.h"
 #include "Containers/ArrayVector.h"
 

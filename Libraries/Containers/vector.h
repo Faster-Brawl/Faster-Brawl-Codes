@@ -6,9 +6,11 @@
 #define CSSCUSTOMCONTROLS_VECTOR_H
 
 #include "Memory.h"
-#include "stddef.h"
-#include "CLibs/InitializerList.h"
+#include "stdtypes.h"
 
+#include <cstdlib>
+#include <initializer_list>
+#include "stddef.h"
 
 template<class T>
 class vector {
@@ -30,17 +32,14 @@ public:
     bool operator<=(const vector<T>& other);
     bool operator>=(const vector<T>& other);*/
     bool push(const T& val);
-    bool insert(const T& val, u32 index);
     void pop_back();
     size_t size() const;
+    bool insert(const T& val, u32 index);
     bool reallocate(size_t newSize);
     //void insert(size_t index, const T& val);
     void erase(size_t index);
     //destroys elements from start, up to (but not including) end
     //void erase(size_t start, size_t end);
-
-    // sets the length to 0 without trying to free the elements
-    void forget();
     void clear();
     bool empty();
 
@@ -48,6 +47,8 @@ public:
 
     size_t index(const T& val);
     //size_t findIf(bool (*condition)(const T& x));
+
+    T* getPtr();
 
 private:
     size_t length = 0;
@@ -94,8 +95,6 @@ bool vector<T>::operator<=(const vector<T>& other);
 bool vector<T>::operator>=(const vector<T>& other);*/
 
 
-#define OSReport ((void (*)(const char* text, ...)) 0x801d8600)
-
 template<class T>
 bool vector<T>::push(const T& val) {
     if (length >= maxLength) {
@@ -125,17 +124,13 @@ bool vector<T>::insert(const T& val, u32 index) {
 
 template<class T>
 void vector<T>::pop_back() {
-    delete Array[--length];
+    delete Array[length];
+    length--;
 }
 
 template<class T>
 size_t vector<T>::size() const {
     return length;
-}
-
-template<class T>
-void vector<T>::forget() {
-    length = 0;
 }
 
 template<class T>
@@ -174,6 +169,11 @@ size_t vector<T>::index(const T& val) {
         }
     }
     return -1;
+}
+
+template<class T>
+T* vector<T>::getPtr() {
+    return Array;
 }
 
 

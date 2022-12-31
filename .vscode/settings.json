@@ -1,4 +1,11 @@
 {
   "cmake.configureOnOpen": true,
-  "C_Cpp.intelliSenseEngineFallback": "enabled"
+  "C_Cpp.intelliSenseEngineFallback": "enabled",
+  "files.associations": {
+    "list": "cpp",
+    "cstddef": "cpp",
+    "ratio": "cpp",
+    "vector": "cpp",
+    "cstring": "cpp"
+  }
 }
