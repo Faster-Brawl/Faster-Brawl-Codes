@@ -3,8 +3,9 @@ from Library import File, Library
 from Section import Section
 from Common import cmdLineOutput, makeBinUtilCommandFile, makeCustomLinkerScriptFile
 from typing import List
-ppcCompiler = R'C:\Users\dareb\Documents\PPlusCpp\BuildSystem\Compiler\bin\powerpc-eabi-g++.exe'
-linkerScriptBase = R'C:\Users\dareb\Documents\PPlusCpp\BuildSystem\src\customLinkerScript.ld'
+full_path = os.path.realpath(__file__)
+linkerScriptBase = os.path.dirname(full_path) + R'/customLinkerScript.ld'
+ppcCompiler = os.path.dirname(full_path) + R'/../Compiler/bin/powerpc-eabi-g++.exe'
 binUtilCommandFilePath = 'IntermediateFiles\\binUtilCommands.txt'
 
 class Compiler:
@@ -41,8 +42,6 @@ class Compiler:
 
         if extraOptions is not None:
             options.extend(extraOptions)
-        
-        
         with open(linkerScriptBase) as file:
             linkerScript = file.read()
             
