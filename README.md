@@ -1,5 +1,5 @@
-# Project+ Codes
-Repo for Building the C++ Binaries, GCT and Virtual SD Card (sd.raw)
+# Faster Brawl Codes
+Repo for Building the C++ Binaries, GCT and Virtual SD Card (sd.raw) for Faster Brawl.
 
 This repo comes with both a vBrawl and Project+ code setup and uses Fracture's C++ framework to compile C++ codes, DukeItOut's GCTRM to assemble ASM files into a GCT and Bird's MakeSD to assemble the sd.raw used to load files such as codes and modified assets.
 
