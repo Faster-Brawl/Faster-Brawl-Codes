@@ -42,14 +42,19 @@ cd ../
 ".\GCTRM\GCTRealMate.exe" -q ".\GCTRM\Project+BOOST.txt"
 ".\GCTRM\GCTRealMate.exe" -q ".\GCTRM\vBrawlRSBE01.txt"
 ".\GCTRM\GCTRealMate.exe" -q ".\GCTRM\vBrawlBOOST.txt"
+".\GCTRM\GCTRealMate.exe" -q ".\GCTRM\vBrawlNetplayV3RSBE01.txt"
+".\GCTRM\GCTRealMate.exe" -q ".\GCTRM\vBrawlNetplayV3BOOST.txt"
 
 COPY ".\GCTRM\Project+RSBE01.gct" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\Project+\RSBE01.gct"
 COPY ".\\GCTRM\Project+BOOST.gct" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\Project+\BOOST.gct"
 COPY ".\\GCTRM\vBrawlRSBE01.gct" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\vBrawl\RSBE01.gct"
 COPY ".\\GCTRM\vBrawlBOOST.gct" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\vBrawl\BOOST.gct"
+COPY ".\\GCTRM\vBrawlNetplayV3RSBE01.gct" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\NetplayV3\RSBE01.gct"
+COPY ".\\GCTRM\vBrawlNetplayV3BOOST.gct" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\NetplayV3\BOOST.gct"
 
 ROBOCOPY ".\build\Output" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\Project+\codes" /mir
 ROBOCOPY ".\build\Output" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\vBrawl\codes" /mir
+ROBOCOPY ".\build\Output" "%SD_CARD_MOUNT_DRIVE_LETTER:\=\\%:\\NetplayV3\codes" /mir
 
 cd /d %~dp0
 
