@@ -37,4 +37,4 @@ Bird and Syvkal for MakeSD
 
 The PMDT and P+DT as well as all those who have contributed code in the Project+ Source
 
-
+Kapedani and Fudgepop for setting up the environment and making development of codes that much easier
