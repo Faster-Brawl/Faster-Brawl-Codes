@@ -1,12 +1,7 @@
 [
   {
     "name": "local kit",
-    "compilers": {
-      "CXX": "${workspaceFolder}/BuildSystem/Compiler/bin/powerpc-eabi-g++.exe"
-    },
-    "preferredGenerator": {
-      "name": "MinGW Makefiles"
-    },
+    "toolchainFile": "${workspaceFolder}/CMake/PPCToolchain.cmake",
     "cmakeSettings": {
       "CMAKE_CXX_COMPILER_WORKS": 1
     }

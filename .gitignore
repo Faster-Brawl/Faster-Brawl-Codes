@@ -12,6 +12,8 @@ pf/
 rp/
 *.gct
 Tourney+/
+.latest_sd_update_time
+SDCard/
 
 # User-specific files
 *.rsuser
@@ -350,3 +352,4 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+.latest_sd_update_time

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "stddef.h"
+#include "stdtypes.h"
 
-typedef s64         OSTime;
-typedef u32         OSTick;
+typedef s64 OSTime;
+typedef u32 OSTick;
 
 #ifndef OS_CORE_CLOCK
 #define OS_CORE_CLOCK       729000000u
