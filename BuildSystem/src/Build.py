@@ -8,8 +8,9 @@
 #                  254  GET_ITER
 #                  256  CALL_FUNCTION_1       1  ''
 #                  258  STORE_FAST               'initSymbols'
-
-import sys, os, re
+from os import listdir
+from os.path import isfile, join
+import sys, os, re, shutil, subprocess
 from SetEnvironment import setEnvironment
 from LibraryDirectory import LibraryDirectory
 from Library import Library, InitialSectionNameLibrary, File, FinalSectionNameLibrary
@@ -20,8 +21,8 @@ from Symbol import Symbol
 from itertools import chain
 from BinUtils import objdump
 from math import ceil
-renamedCodesDir = 'IntermediateFiles\\Renamed'
-removedConstructorsDir = 'IntermediateFiles\\Removed'
+renamedCodesDir = 'IntermediateFiles/Renamed'
+removedConstructorsDir = 'IntermediateFiles/Removed'
 disassemblyDir = 'Disassembly'
 symbolMapFile: File = None
 settings: Settings = None
@@ -45,7 +46,6 @@ def build(buildDir=None, codesDir=None, ppcBinDirectory=None, brawlFuncMapPath=N
     inputCodesDirectoryObject = LibraryDirectory(codesDir, libraryType=InitialSectionNameLibrary)
     renamedCodesDirectoryObject = renameSections(inputCodesDirectoryObject)
     removedConstructorsDirectoryObject = renamedCodesDirectoryObject.removeSections(['.ctors', '.dtors'], removedConstructorsDir)
-    
     compiler = Compiler()
     cppFile = makeCodesCPPFile(removedConstructorsDirectoryObject.symbols)
     linkedCodes = compiler.compile(cppFile, (removedConstructorsDirectoryObject.libraries), textStart=int("0x80000000", 0))
@@ -53,13 +53,11 @@ def build(buildDir=None, codesDir=None, ppcBinDirectory=None, brawlFuncMapPath=N
     segments = SegmentManager(settings)
     segments.assignFunctionAddresses(functions)
     temp = [segment.sections for segment in segments.codeSegments]
-    codeSections = sorted(list(chain.from_iterable(temp)), key=lambda sec : sec.address)
+    codeSections = list(chain.from_iterable(temp))
     initFile = makeInitCPPFile(removedConstructorsDirectoryObject.symbols)
     compiledCodes = compiler.compile(initFile, (renamedCodesDirectoryObject.libraries), textStart=settings.INITIALIZER_SEGMENT_ADDRESS,
       dataStart=settings.DATA_SEGMENT_ADDRESS,
-      sections=codeSections,
-      extraOptions=['-Wl,-v', '-v'])
-    
+      sections=codeSections)
     compiledCodes = FinalSectionNameLibrary(compiledCodes.path)
     for s in compiledCodes.sections:
         assert int("0x80000000", 0) <= s.address <= int("0xA0000000", 0), f"{s}, address: {hex(s.address)} out of acceptable range"
@@ -69,7 +67,6 @@ def build(buildDir=None, codesDir=None, ppcBinDirectory=None, brawlFuncMapPath=N
     data = makeFilesFile(compiledCodes, files)
     f = File('Output/files')
     f.writeBinary(data)
-
 
 def renameSections(codesDirectory: LibraryDirectory):
     name2NewName = {}
@@ -95,7 +92,6 @@ def makeCodesCPPFile(symbols):
 def makeInitCPPFile(symbols):
     initFormat = '\n        asm(R"(.globl _start\n        _start:\n            b _INITIALIZE_\n            {codeBranches}\n            {writes}\n        )");\n        '
     injections = []
-    s: Symbol
     for s in symbols:
         if s.isInjection() or s.isStartup():
             injections.append(s)
@@ -354,7 +350,6 @@ def makeMap(symbols, dest: File):
 def makeFilesFile(compiledCodes: Library, files: list):
     data = bytearray()
     s = [s for s in compiledCodes.sections if s.name == '_INITIALIZE___text__']
-    print(s)
     assert len(s) == 1, (f"{s}")
     data.extend(s[0].address.to_bytes(4, 'big'))
     data.extend(settings.INITIALIZER_INFO_ADDRESS.to_bytes(4, 'big'))
@@ -371,7 +366,6 @@ def makeFilesFile(compiledCodes: Library, files: list):
 def extractFiles(linkedCodes: Library, segmentList: SegmentManager):
     files = []
     for s in segmentList.segments.values():
-        print(s)
         if s.sections:
             extractedCodes = linkedCodes.extractSections(s.sections, File(f"IntermediateFiles/{s.name}"))
             outputCodes = extractedCodes.compress(File(f"Output/{s.name}"))
@@ -487,15 +481,52 @@ def makeInjectionsInfo(compiledCodes: Library):
     else:
         return data
 
+# This file can be read by Dolphin to determine whether SD card folder should be synced
+def createLatestUpdateTimeFile():
+    filename = "../.latest_sd_update_time"
+
+    if os.path.exists(filename):
+        os.remove(filename)
+
+    f = open(filename, "x")
+    f.close()
+
+def buildSDCard():
+    outputfiles = [f for f in listdir('./Output') if isfile(join('./Output', f))]
+    subfolders = [ f for f in os.scandir('../SDCard') if f.is_dir() ]
+
+    for subfolder in subfolders:
+        codesFolder = os.path.abspath(subfolder.path + "/codes")
+        if not os.path.exists(codesFolder):
+            os.makedirs(codesFolder)
+        for outputfile in outputfiles:
+            shutil.copyfile(os.path.abspath("Output/" + outputfile), os.path.abspath(codesFolder + "/" + outputfile))
+
+        if sys.platform == "linux":
+            gctrm_exec = '../GCTRM/GCTRealMateLinux'
+        elif sys.platform == "win32":
+            gctrm_exec = '../GCTRM/GCTRealMate.exe'
+        else:
+            raise Exception("No GCTRM executable for platform: " + sys.platform )
+
+        RSBE01_file = "../GCTRM/" + subfolder.name + "RSBE01.txt"
+        subprocess.run([gctrm_exec, "-q", RSBE01_file])
+        shutil.copyfile(os.path.abspath("../GCTRM/" + subfolder.name + "RSBE01.GCT"), os.path.abspath('../SDCard/' + subfolder.name + "/RSBE01.GCT"))
+
+        BOOST_file = "../GCTRM/" + subfolder.name + "BOOST.txt"
+        subprocess.run([gctrm_exec, "-q", BOOST_file])
+        shutil.copyfile(os.path.abspath("../GCTRM/" + subfolder.name + "BOOST.GCT"), os.path.abspath('../SDCard/' + subfolder.name + "/BOOST.GCT"))
+   
+    createLatestUpdateTimeFile()
 
 if __name__ == '__main__':
 
     def show_exception_and_exit(exc_type, exc_value, tb):
         import traceback
         traceback.print_exception(exc_type, exc_value, tb)
-        # input('Press enter to exit.')
+        input('Press enter to exit.')
         sys.exit(-1)
-
 
     sys.excepthook = show_exception_and_exit
     build(*sys.argv[1:])
+    buildSDCard()
