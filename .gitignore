@@ -13,6 +13,7 @@ rp/
 *.gct
 Tourney+/
 .latest_sd_update_time
+SDCard/
 
 # User-specific files
 *.rsuser
