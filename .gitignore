@@ -12,6 +12,7 @@ pf/
 rp/
 *.gct
 Tourney+/
+.latest_sd_update_time
 
 # User-specific files
 *.rsuser
